@@ -31,14 +31,17 @@ def batchify_data(x_data, y_data, batch_size):
 
 
 def compute_accuracy(predictions, y):
+    predictions = predictions.cpu()
+    y = y.cpu()
     """Computes the accuracy of predictions against the gold labels, y."""
     return np.mean(np.equal(predictions.numpy(), y.numpy()))
 
 
-def train_model(train_data, dev_data, model, lr=0.01, momentum=0.9, nesterov=False, n_epochs=30):
+def train_model(train_data, dev_data, model, lr=0.01, momentum=0.9, nesterov=False, n_epochs=50):
     """Train a model for N epochs given data and hyper-params."""
     # We optimize with SGD
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, nesterov=nesterov)
+    #optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, nesterov=nesterov)
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 
     for epoch in range(1, n_epochs + 1):
         print("-------------\nEpoch {}:\n".format(epoch))
